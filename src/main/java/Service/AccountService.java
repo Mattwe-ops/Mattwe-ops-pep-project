@@ -28,7 +28,7 @@ public class AccountService {
             /*accountDAO.insertAccount(account);
             Account tempAccount = accountDAO.getAccountByUsername(account.getUsername());
             return tempAccount;*/
-            return account.insertAccount(account);
+            return accountDAO.insertAccount(account);
         }
     }
 
