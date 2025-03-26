@@ -28,11 +28,9 @@ public class MessageService {
             return null;
         } else if(message.getMessage_text().length() >= 255){
             return null;
-        } else if(message.getPosted_by() != tempAccount.getAccount_id()){
+        } else if(tempAccount == null){
             return null;
         } else {
-            /*messageDAO.insertMessage(message);
-            Message tempMessage = messageDAO.()*/
             return messageDAO.insertMessage(message);
         }
     }
@@ -47,8 +45,14 @@ public class MessageService {
         return messageDAO.getMessageById(message_id);
     }
 
-    public Message deleteMessage(int message_id, Message message){
-        return messageDAO.deleteMessage(message_id, message);
+    public Message deleteMessage(int message_id){
+        Message tempMessage = messageDAO.getMessageById(message_id);
+        if(tempMessage == null){
+            return null;
+        } else {
+            messageDAO.deleteMessage(message_id);
+            return tempMessage;
+        }
     }
 
     public Message updateMessage(int message_id, Message message){

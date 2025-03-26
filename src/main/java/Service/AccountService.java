@@ -25,17 +25,16 @@ public class AccountService {
         } else if(account == accountDAO.getAccountByUsername(account.getUsername())){
             return null;
         } else {
-            /*accountDAO.insertAccount(account);
-            Account tempAccount = accountDAO.getAccountByUsername(account.getUsername());
-            return tempAccount;*/
             return accountDAO.insertAccount(account);
         }
     }
 
     public Account loginAccount(Account account){
-        Account tempA = accountDAO.getAccountByUsername(account.getUsername());
-        if( (account.getUsername() == tempA.getUsername()) && (account.getPassword() == tempA.getPassword()) ){
-            return tempA;
+        Account tempAccount = accountDAO.getAccountByUsername(account.getUsername());
+        if(tempAccount == null){
+            return null;
+        } else if( account.getUsername().equals(tempAccount.getUsername()) && account.getPassword().equals(tempAccount.getPassword()) ){
+            return tempAccount;
         } else {
             return null;
         }

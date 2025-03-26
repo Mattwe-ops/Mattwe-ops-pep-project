@@ -91,22 +91,24 @@ public class SocialMediaController {
         ctx.json(messages);
     }
 
-    private void getMessageByIdHandler(Context ctx) {
+    private void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        ctx.json(messageService.getMessageById(message_id));
+        Message message = messageService.getMessageById(message_id);
+        if(message!=null){
+            ctx.json(message);
+        } else {
+            ctx.status(200);
+        }
     }
 
     private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        Message deletedMessage = messageService.deleteMessage(message_id, message);
-        ctx.json(mapper.writeValueAsString(deletedMessage));
-        /*if(deletedMessageMessage!=null){
-            ctx.json(mapper.writeValueAsString(addedMessage));
+        Message message = messageService.deleteMessage(message_id);
+        if(message!=null){
+            ctx.json(message);
         } else {
-            ctx.status(400);
-        }*/
+            ctx.status(200);
+        }
     }
 
     private void patchUpdateMessageHandler(Context ctx) throws JsonProcessingException {
